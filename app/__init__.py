@@ -16,6 +16,7 @@ try:
     conn = pymongo.MongoClient(f"mongodb+srv://{uname}:{pw}{cluster_code}.mongodb.net/?retryWrites=true&w=majority")
     db = conn.portal
 except Exception as e:
+    print(e._message)
     print("An error has occurred while trying to connect to the database.")
 
 module = Blueprint("/", __name__)
