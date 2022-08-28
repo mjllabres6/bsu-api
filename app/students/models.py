@@ -1,4 +1,4 @@
-from util import Table
+from util.table import Table
 
 class __Students():
     name = "students"
