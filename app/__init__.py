@@ -4,7 +4,6 @@ from app import modules
 from flask import url_for
 from flask_cors import CORS
 import pymongo
-ca = certifi.where()
 
 app = Flask(__name__)
 app.config.from_object("config")
