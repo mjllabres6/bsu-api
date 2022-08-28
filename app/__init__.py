@@ -11,9 +11,9 @@ CORS(app)
 
 try:
     uname = app.config["DB_USERNAME"]
-    pw = app.config["DB_PASSWORD"]
+    pw = app.config["DB_PASSWORD"]  
     cluster_code = app.config["DB_CLUSTER_CODE"]
-    conn = pymongo.MongoClient(f"mongodb+srv://{uname}:{pw}{cluster_code}.mongodb.net/?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE", connect=False)
+    conn = pymongo.MongoClient(f"mongodb+srv://{uname}:{pw}{cluster_code}.mongodb.net/?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
     db = conn.portal
 except Exception as e:
     print(e.__message)
