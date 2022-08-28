@@ -4,7 +4,6 @@ from app import modules
 from flask import url_for
 from flask_cors import CORS
 import pymongo
-import certifi
 ca = certifi.where()
 
 app = Flask(__name__)
@@ -15,7 +14,7 @@ try:
     uname = app.config["DB_USERNAME"]
     pw = app.config["DB_PASSWORD"]  
     cluster_code = app.config["DB_CLUSTER_CODE"]
-    conn = pymongo.MongoClient(f"mongodb+srv://{uname}:{pw}{cluster_code}.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
+    conn = pymongo.MongoClient(f"mongodb+srv://{uname}:{pw}{cluster_code}.mongodb.net/?ssl=true&retryWrites=true&w=majority")
     db = conn.portal
 except Exception as e:
     print(e.__message)

@@ -1,6 +1,7 @@
-
+from util import Table
 
 class __Students():
+    name = "students"
     columns = {
             "sr_code": str,
             "first_name": str,
@@ -15,5 +16,7 @@ class __Students():
     }
 
     optional = ["created_at", "updated_at"]
+
+
 
 Students = __Students()
