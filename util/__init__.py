@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+import pytz
 
 def validate_data(body, model):
     data = {}
@@ -12,3 +14,8 @@ def validate_data(body, model):
         else:
             return f"INVALID TYPE ON COLUMN {col}"
     return data
+
+def get_timestamp():
+    tz = pytz.timezone('Singapore')
+    return datetime.now(tz)
+    

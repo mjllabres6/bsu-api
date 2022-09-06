@@ -6,6 +6,7 @@ from app.students.models import Students
 import pymongo
 import util
 
+
 class StudentManager(object):
     @classmethod
     def get_students(cls):
@@ -33,6 +34,9 @@ class StudentManager(object):
     def create_student(cls, body):
         from app import db
         user_body = util.validate_data(body, Students)
+
+        timestamp = util.get_timestamp()
+        user_body.update({'created': timestamp, 'updated': timestamp})
 
         try:
             print(user_body)
