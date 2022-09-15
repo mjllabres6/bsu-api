@@ -31,6 +31,7 @@ def login_student():
     res, status = StudentManager.login_student(json_data)
     return make_response(res), status
 
+
 @module.route("/students/register", methods=["POST"])
 def register_student():
     json_data = request.get_json(force=True)

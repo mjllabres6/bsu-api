@@ -11,6 +11,7 @@ class StudentManager(object):
     @classmethod
     def get_students(cls):
         from app import db
+
         data = list(db.students.find())
         for student in data:
             student["_id"] = str(student["_id"])
@@ -19,24 +20,27 @@ class StudentManager(object):
     @classmethod
     def get_student_by_id(cls, id):
         from app import db
+
         data = db.students.find_one({"_id": ObjectId(id)})
         data["_id"] = str(data["_id"])
         return jsonify({"data": data})
-    
+
     @classmethod
     def get_student_by_code(cls, code):
         from app import db
+
         data = db.students.find_one({"srcode": code})
         data["_id"] = str(data["_id"])
         return data
-        
+
     @classmethod
     def create_student(cls, body):
         from app import db
+
         user_body = util.validate_data(body, Students)
 
         timestamp = util.get_timestamp()
-        user_body.update({'created': timestamp, 'updated': timestamp})
+        user_body.update({"created": timestamp, "updated": timestamp})
 
         try:
             print(user_body)
@@ -52,12 +56,17 @@ class StudentManager(object):
     @classmethod
     def login_student(cls, body):
         from app import db
+
         user_body = {"sr_code": body.get("sr_code"), "password": body.get("password")}
 
         student = db.students.find_one(
             {"sr_code": user_body["sr_code"], "password": user_body["password"]}
         )
         if student:
-            return {"message": "Found a match on a student record.", "name": student["name"], "section": student["section"]}, 200
+            return {
+                "message": "Found a match on a student record.",
+                "name": student["name"],
+                "section": student["section"],
+            }, 200
 
         return {"message": "Invalid login credentials."}, 200
