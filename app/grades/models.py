@@ -1,10 +1,12 @@
 from util.table import Table
 
-class __Sections():
-    name = "sections"
+class __Grades():
+    name = "grades"
     columns = {
-            "section_id": str,
-            "section_code": str,
+            "grade_id": str,
+            "subject_id": str,
+            "student_id": str,
+            "grade": str,
             "prof_id": str,
             "created_at": str,
             "updated_at": str,
@@ -13,5 +15,4 @@ class __Sections():
     optional = ["created_at", "updated_at"]
 
 
-
-Sections = __Sections()
+Grades = __Grades()

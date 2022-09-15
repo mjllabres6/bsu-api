@@ -1,11 +1,10 @@
 from util.table import Table
 
-class __Sections():
-    name = "sections"
+class __Departments():
+    name = "departments"
     columns = {
-            "section_id": str,
-            "section_code": str,
-            "prof_id": str,
+            "dept_code": str,
+            "dept_name": str,
             "created_at": str,
             "updated_at": str,
     }
@@ -14,4 +13,4 @@ class __Sections():
 
 
 
-Sections = __Sections()
+Departments = __Departments()
