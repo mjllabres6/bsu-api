@@ -65,8 +65,7 @@ class StudentManager(object):
         if student:
             return {
                 "message": "Found a match on a student record.",
-                "name": student["name"],
-                "section": student["section"],
+                "name": f'{student["first_name"]} {student["last_name"]}',
             }, 200
 
         return {"message": "Invalid login credentials."}, 200
