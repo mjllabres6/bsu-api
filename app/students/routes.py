@@ -18,13 +18,6 @@ def add_students():
     response, status = StudentManager.create_student(json_data)
     return make_response(jsonify(response)), status
 
-
-@module.route("/students/<id>", methods=["GET"])
-def get_student_by_id(id):
-    res = StudentManager.get_student_by_id(id)
-    return make_response(res)
-
-
 @module.route("/students/login", methods=["POST"])
 def login_student():
     json_data = request.get_json(force=True)
