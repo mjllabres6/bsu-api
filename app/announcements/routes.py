@@ -8,5 +8,5 @@ module = Blueprint("announcements", __name__)
 
 @module.route("/announcements", methods=["GET"])
 def get_announcements():
-    res = StudentManager.get_students()
+    res = StudentManager.get_announcements()
     return make_response(res)

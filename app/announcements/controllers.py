@@ -9,6 +9,15 @@ import util
 
 class AnnouncementManager(object):
     @classmethod
+    def get_students(cls):
+        from app import db
+
+        data = list(db.announcements.find())
+        for announcement in data:
+            announcement["_id"] = str(announcement["_id"])
+        return jsonify({"data": data})
+
+    @classmethod
     def get_announcements_by_dept(cls, dept_id):
         from app import db
 
