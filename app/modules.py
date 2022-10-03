@@ -10,7 +10,7 @@ def register():
     # from app.professors.routes import module as professors_module
     # from app.grades.routes import module as grades_module
     # from app.departments.routes import module as departments_module
-    # from app.announcements.routes import module as announcements_module
+    from app.announcements.routes import module as announcements_module
 
     modules = [
         students_module,
@@ -19,7 +19,7 @@ def register():
         # professors_module,
         # grades_module,
         # departments_module,
-        # announcements_module
+        announcements_module
     ]
 
     for module in modules:
