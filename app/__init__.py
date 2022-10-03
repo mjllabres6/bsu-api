@@ -17,7 +17,7 @@ try:
     )
     db = conn.portal
 except Exception as e:
-    print(e.__message)
+    print(e)
     print("An error has occurred while trying to connect to the database.")
 
 module = Blueprint("/", __name__)

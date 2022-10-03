@@ -9,7 +9,7 @@ import util
 
 class AnnouncementManager(object):
     @classmethod
-    def get_students(cls):
+    def get_announcements(cls):
         from app import db
 
         data = list(db.announcements.find())
