@@ -18,9 +18,12 @@ class ProfessorManager(object):
         return jsonify({"data": data})
 
     @classmethod
-    def get_professor_by_id(cls, id):
+    def get_professor_by_id(cls, prof_id):
         from app import db
-
-        data = db.professors.find_one({"_id": ObjectId(id)})
+        print(type(prof_id))
+        print(prof_id)
+        print({"_id": ObjectId(prof_id)})
+        data = db.professors.find_one({"_id": ObjectId(prof_id)})
         data["_id"] = str(data["_id"])
-        return jsonify({"data": data})
+        return data
+

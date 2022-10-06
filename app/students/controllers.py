@@ -15,6 +15,8 @@ class StudentManager(object):
         data = list(db.students.find())
         for student in data:
             student["_id"] = str(student["_id"])
+            for subject in student["subjects"]:
+                student["subjects"][student["subjects"].index(subject)] = str(subject)
         return jsonify({"data": data})
 
     @classmethod
@@ -29,9 +31,11 @@ class StudentManager(object):
     def get_student_by_code(cls, code):
         from app import db
 
-        data = db.students.find_one({"srcode": code})
-        data["_id"] = str(data["_id"])
-        return data
+        student = db.students.find_one({"sr_code": code})
+        student["_id"] = str(student["_id"])
+        for subject in student["subjects"]:
+                student["subjects"][student["subjects"].index(subject)] = str(subject)
+        return student
 
     @classmethod
     def create_student(cls, body):
@@ -69,3 +73,14 @@ class StudentManager(object):
             }, 200
 
         return {"message": "Invalid login credentials."}, 200
+    
+
+    @classmethod
+    def get_student_liabilities(cls, sr_code):
+        from app import db
+
+        data = list(db.liabilities.find({"sr_code": sr_code}))
+        print(data)
+        for liab in data:
+            data[data.index(liab)]["_id"] = str(liab["_id"])
+        return jsonify({"data": data})
