@@ -48,3 +48,8 @@ def get_student_subjects(sr_code):
 def get_student_liabilities(sr_code):
     res = StudentManager.get_student_liabilities(sr_code)
     return make_response(res)
+
+@module.route("/students/<sr_code>/curriculum", methods=["GET"])
+def get_student_liabilities(sr_code):
+    res = StudentManager.get_student_curriculum(sr_code)
+    return make_response(res)
