@@ -92,4 +92,15 @@ class StudentManager(object):
 
         curriculum = db.curriculum.find({"course": student["course"]})
         curriculum["_id"] = str(curriculum["_id"])
-        return jsonify({"data": curriculum})
+
+        
+        fourth = []
+        for subject_id in curriculum["fourth"]:
+            subject = db.subjects.find({"_id": subject_id})
+            subject["_id"] = str(subject["_id"])
+            fourth.append(subject)
+        
+        subjects = {
+            "fourth": fourth
+        }
+        return jsonify({"data": subjects})
