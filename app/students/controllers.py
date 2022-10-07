@@ -84,3 +84,12 @@ class StudentManager(object):
         for liab in data:
             data[data.index(liab)]["_id"] = str(liab["_id"])
         return jsonify({"data": data})
+    
+    @classmethod
+    def get_student_curriculum(cls, sr_code):
+        from app import db
+        student = db.students.find({"sr_code": sr_code})
+
+        curriculum = db.curriculum.find({"course": student["course"]})
+        curriculum["_id"] = str(curriculum["_id"])
+        return jsonify({"data": curriculum})
