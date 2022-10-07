@@ -34,7 +34,7 @@ class StudentManager(object):
         student = db.students.find_one({"sr_code": code})
         student["_id"] = str(student["_id"])
         for subject in student["subjects"]:
-                student["subjects"][student["subjects"].index(subject)] = str(subject)
+            student["subjects"][student["subjects"].index(subject)] = str(subject)
         return student
 
     @classmethod
@@ -73,7 +73,6 @@ class StudentManager(object):
             }, 200
 
         return {"message": "Invalid login credentials."}, 200
-    
 
     @classmethod
     def get_student_liabilities(cls, sr_code):
@@ -84,23 +83,21 @@ class StudentManager(object):
         for liab in data:
             data[data.index(liab)]["_id"] = str(liab["_id"])
         return jsonify({"data": data})
-    
+
     @classmethod
     def get_student_curriculum(cls, sr_code):
         from app import db
-        student = db.students.find({"sr_code": sr_code})
 
-        curriculum = db.curriculum.find({"course": student["course"]})
+        student = db.students.find_one({"sr_code": sr_code})
+        curriculum = db.curriculum.find_one({"course": student["course"]})
         curriculum["_id"] = str(curriculum["_id"])
 
-        
         fourth = []
         for subject_id in curriculum["fourth"]:
-            subject = db.subjects.find({"_id": subject_id})
+            subject = db.subjects.find_one({"_id": subject_id})
             subject["_id"] = str(subject["_id"])
+            subject.pop("prof_id")
             fourth.append(subject)
-        
-        subjects = {
-            "fourth": fourth
-        }
+
+        subjects = {"fourth": fourth}
         return jsonify({"data": subjects})

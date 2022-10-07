@@ -33,11 +33,11 @@ class AttendanceManager(object):
         data = db.attendance.find_one({"class_code": code})
         data["_id"] = str(data["_id"])
         return jsonify({"data": data})
-    
 
     @classmethod
     def register_attendance(cls, code, body):
         from app import db
+
         current_class = db.classes.find_one({"code": code})
         if current_class:
             if current_class["expires_at"] < datetime.now():
@@ -55,7 +55,13 @@ class AttendanceManager(object):
 
             today = date.today()
             db.attendance.insert_one(
-                {"class_code": code, "srcode": body.get("srcode"), "subject": subject["name"], "date": today.strftime("%B %d, %Y"), "prof_name": prof["name"]}
+                {
+                    "class_code": code,
+                    "srcode": body.get("srcode"),
+                    "subject": subject["name"],
+                    "date": today.strftime("%B %d, %Y"),
+                    "prof_name": prof["name"],
+                }
             )
             return {"message": "Class attendance has been registered"}
 

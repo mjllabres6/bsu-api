@@ -12,6 +12,7 @@ def get_students():
     res = StudentManager.get_students()
     return make_response(res)
 
+
 @module.route("/students/<sr_code>", methods=["GET"])
 def get_student_by_code(sr_code):
     res = StudentManager.get_student_by_code(sr_code)
@@ -23,6 +24,7 @@ def add_students():
     json_data = request.get_json(force=True)
     response, status = StudentManager.create_student(json_data)
     return make_response(jsonify(response)), status
+
 
 @module.route("/students/login", methods=["POST"])
 def login_student():
@@ -48,6 +50,7 @@ def get_student_subjects(sr_code):
 def get_student_liabilities(sr_code):
     res = StudentManager.get_student_liabilities(sr_code)
     return make_response(res)
+
 
 @module.route("/students/<sr_code>/curriculum", methods=["GET"])
 def get_student_curriculum(sr_code):
