@@ -44,20 +44,20 @@ class AttendanceManager(object):
                 return {"message": "Class attendance has expired."}
 
             attended = db.attendance.find_one(
-                {"class_code": code, "srcode": body.get("srcode")}
+                {"class_code": code, "sr_code": body.get("sr_code")}
             )
             if attended:
                 return {"message": "You have already attended this class."}
 
             clss = db.classes.find_one({"code": code})
-            subject = db.subjects.find_one({"name": clss["subject_name"]})
-            prof = db.prof.find_one({"prof_code": clss["prof_code"]})
+            subject = db.subjects.find_one({"_id": ObjectId(clss["subject_id"])})
+            prof = db.professors.find_one({"_id": subject["prof_id"]})
 
             today = date.today()
             db.attendance.insert_one(
                 {
                     "class_code": code,
-                    "srcode": body.get("srcode"),
+                    "sr_code": body.get("sr_code"),
                     "subject": subject["name"],
                     "date": today.strftime("%B %d, %Y"),
                     "prof_name": prof["name"],

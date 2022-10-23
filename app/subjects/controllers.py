@@ -34,7 +34,6 @@ class SubjectManager(object):
         subjects = []
         for subject in student["subjects"]:
             subject = cls.get_subject_by_id(subject)
-            print(subject)
             prof = ProfessorManager.get_professor_by_id(subject["prof_id"])
 
             subject.update({"professor": prof["name"]})

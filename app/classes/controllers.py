@@ -9,6 +9,9 @@ from io import BytesIO
 import qrcode
 import uuid
 from datetime import date, datetime, timedelta
+from app.subjects.controllers import SubjectManager
+from app.students.controllers import StudentManager
+import csv
 
 
 class ClassManager(object):
@@ -18,11 +21,18 @@ class ClassManager(object):
 
         code = str(uuid.uuid4())
         today = date.today()
+
+        subject_id = body.get("subject_id")
+
+        if len(subject_id) not in [12, 24] or not SubjectManager.get_subject_by_id(
+            ObjectId(subject_id)
+        ):
+            return {"message": "Error finding a subject with this id."}
+
         subject_body = {
-            "subject_name": body.get("subject_name"),
+            "subject_id": subject_id,
             "duration": body.get("duration"),
             "date": today.strftime("%B %d, %Y"),
-            "prof_code": body.get("prof_code"),
         }
 
         expiry = datetime.now() + timedelta(hours=int(subject_body.pop("duration")))
@@ -68,3 +78,46 @@ class ClassManager(object):
 
         data = db.attendance.count_documents({"class_code": code})
         return {"count": data}
+
+    @classmethod
+    def get_student_attendance(cls, srcode):
+        from app import db
+
+        data = list(db.attendance.find({"sr_code": srcode}))
+        for attendance in data:
+            attendance["_id"] = str(attendance["_id"])
+        return {"results": data}
+
+    @classmethod
+    def get_prof_classes(cls, srcode):
+        from app import db
+
+        data = list(db.classes.find({"prof_code": srcode}))
+        for attendance in data:
+            attendance["_id"] = str(attendance["_id"])
+        return {"results": data}
+
+    @classmethod
+    def export_as_excel(cls, code):
+        from app import db
+
+        import io
+
+        data = list(db.attendance.find({"class_code": code}))
+        srcode = ""
+        name = ""
+
+        proxy = io.StringIO()
+
+        writer = csv.writer(proxy)
+        writer.writerow(["SR-CODE", "NAME"])
+
+        for student in data:
+            name = StudentManager.get_student_by_code(student["sr_code"])["name"]
+            writer.writerow([student["srcode"], name])
+
+        mem = io.BytesIO()
+        mem.write(proxy.getvalue().encode())
+        mem.seek(0)
+        proxy.close()
+        return mem

@@ -47,7 +47,6 @@ class StudentManager(object):
         user_body.update({"created": timestamp, "updated": timestamp})
 
         try:
-            print(user_body)
             db.students.insert_one(user_body)
             return {"message": "Successfully created student record."}, 200
         except pymongo.errors.DuplicateKeyError:
@@ -79,7 +78,6 @@ class StudentManager(object):
         from app import db
 
         data = list(db.liabilities.find({"sr_code": sr_code}))
-        print(data)
         for liab in data:
             data[data.index(liab)]["_id"] = str(liab["_id"])
         return jsonify({"data": data})

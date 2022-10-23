@@ -21,9 +21,6 @@ class ProfessorManager(object):
     def get_professor_by_id(cls, prof_id):
         from app import db
 
-        print(type(prof_id))
-        print(prof_id)
-        print({"_id": ObjectId(prof_id)})
         data = db.professors.find_one({"_id": ObjectId(prof_id)})
         data["_id"] = str(data["_id"])
         return data
