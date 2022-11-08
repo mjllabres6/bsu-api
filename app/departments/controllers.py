@@ -11,8 +11,10 @@ class DepartmentManager(object):
     @classmethod
     def get_departments(cls):
         from app import db
-
+        print("GET DEPTS")
         data = list(db.departments.find())
+
+        print(data)
         for dept in data:
             dept["_id"] = str(dept["_id"])
         return jsonify({"data": data})
