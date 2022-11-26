@@ -27,9 +27,23 @@ def reg_qr(code):
     return make_response(res)
 
 
+
+
 @module.route("/classes/<code>/count", methods=["GET"])
 def get_student_count(code):
     res = ClassManager.get_student_count(code)
+    return make_response(res)
+
+
+@module.route("/subjects/<subject_id>/classes", methods=["GET"])
+def get_classes_by_subject(subject_id):
+    res = ClassManager.get_classes_by_subject(subject_id)
+    return make_response(res)
+
+
+@module.route("/classes/<code>/attendance", methods=["GET"])
+def get_attendance_by_class(code):
+    res = AttendanceManager.get_attendance_by_class(code)
     return make_response(res)
 
 

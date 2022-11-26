@@ -66,6 +66,11 @@ class StudentManager(object):
             {"sr_code": user_body["sr_code"], "password": user_body["password"]}
         )
         if student:
+            if student["is_admin"]:
+                return {
+                "message": "Found a match on an admin record."
+            }, 200
+
             return {
                 "message": "Found a match on a student record.",
                 "name": f'{student["first_name"]} {student["last_name"]}',

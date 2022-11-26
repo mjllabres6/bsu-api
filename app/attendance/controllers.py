@@ -3,6 +3,7 @@ from flask import jsonify
 from bson.objectid import ObjectId
 from http import HTTPStatus
 from app.attendance.models import Attendance
+from app.students.controllers import StudentManager
 import pymongo
 import util
 from datetime import date, datetime
@@ -30,8 +31,14 @@ class AttendanceManager(object):
     def get_attendance_by_class(cls, code):
         from app import db
 
-        data = db.attendance.find_one({"class_code": code})
-        data["_id"] = str(data["_id"])
+        data = list(db.attendance.find({"class_code": code}))
+        for attendance in data:
+            attendance["_id"] = str(attendance["_id"])
+            sr_code = attendance.get('sr_code')
+
+            student = StudentManager.get_student_by_code(sr_code)
+            attendance["name"] = f'{student["first_name"]} {student["last_name"]}'
+
         return jsonify({"data": data})
 
     @classmethod

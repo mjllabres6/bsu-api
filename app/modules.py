@@ -18,7 +18,7 @@ def register():
     modules = [
         students_module,
         sections_module,
-        #subjects_module,
+        subjects_module,
         professors_module,
         grades_module,
         departments_module,

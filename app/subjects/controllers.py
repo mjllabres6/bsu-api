@@ -17,6 +17,10 @@ class SubjectManager(object):
         data = list(db.subjects.find())
         for subject in data:
             subject["_id"] = str(subject["_id"])
+            prof_id = subject.pop("prof_id")
+            prof = ProfessorManager.get_professor_by_id(prof_id)
+            subject["prof_name"] = prof["name"]
+
         return jsonify({"data": data})
 
     @classmethod

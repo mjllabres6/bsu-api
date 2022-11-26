@@ -96,6 +96,20 @@ class ClassManager(object):
         for attendance in data:
             attendance["_id"] = str(attendance["_id"])
         return {"results": data}
+    
+    @classmethod
+    def get_classes_by_subject(cls, subject_id):
+        from app import db 
+
+        subject = SubjectManager.get_subject_by_id(subject_id)
+
+        print(subject)
+
+        if not subject:
+            return {"message": "No subject has this id"}, 500
+
+        classes = list(db.classes.find({"subject_id": subject["_id"]}, {'_id': False}))
+        return {"classes": classes}
 
     @classmethod
     def export_as_excel(cls, code):
@@ -113,8 +127,9 @@ class ClassManager(object):
         writer.writerow(["SR-CODE", "NAME"])
 
         for student in data:
-            name = StudentManager.get_student_by_code(student["sr_code"])["name"]
-            writer.writerow([student["srcode"], name])
+            st = StudentManager.get_student_by_code(student["sr_code"])
+            name = f"{st['first_name']} {st['last_name']}"
+            writer.writerow([student["sr_code"], name])
 
         mem = io.BytesIO()
         mem.write(proxy.getvalue().encode())
