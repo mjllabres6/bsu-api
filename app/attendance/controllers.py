@@ -65,7 +65,6 @@ class AttendanceManager(object):
 
             tz = pytz.timezone("Singapore") 
             today = datetime.now(tz)
-            today = date.today()
             db.attendance.insert_one(
                 {
                     "class_code": code,
