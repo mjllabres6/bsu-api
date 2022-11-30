@@ -88,6 +88,7 @@ class ClassManager(object):
         data = list(db.attendance.find({"sr_code": srcode}))
         for attendance in data:
             attendance["_id"] = str(attendance["_id"])
+        data.reverse()
         return {"results": data}
 
     @classmethod
