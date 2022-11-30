@@ -24,8 +24,6 @@ class ClassManager(object):
 
         tz = pytz.timezone("Singapore") 
         today = datetime.now(tz)
-        print(tz)
-        print(today)
         # today = date.today()
 
         subject_id = body.get("subject_id")

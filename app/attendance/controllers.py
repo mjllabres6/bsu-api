@@ -45,6 +45,7 @@ class AttendanceManager(object):
     @classmethod
     def register_attendance(cls, code, body):
         from app import db
+        import pytz
 
         current_class = db.classes.find_one({"code": code})
         if current_class:
@@ -61,6 +62,9 @@ class AttendanceManager(object):
             subject = db.subjects.find_one({"_id": ObjectId(clss["subject_id"])})
             prof = db.professors.find_one({"_id": subject["prof_id"]})
 
+
+            tz = pytz.timezone("Singapore") 
+            today = datetime.now(tz)
             today = date.today()
             db.attendance.insert_one(
                 {
