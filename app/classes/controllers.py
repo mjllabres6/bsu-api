@@ -51,7 +51,9 @@ class ClassManager(object):
 
         data = list(db.classes.find())
         for classx in data:
+            print('hello')
             classx["_id"] = str(classx["_id"])
+            print(classx)
         return jsonify({"data": data})
 
     @classmethod
@@ -109,6 +111,8 @@ class ClassManager(object):
             return {"message": "No subject has this id"}, 500
 
         classes = list(db.classes.find({"subject_id": subject["_id"]}, {'_id': False}))
+        for classx in classes:
+            classx["attendees"] = len(list(db.attendance.find({'class_code': classx['code']})))
         return {"classes": classes}
 
     @classmethod

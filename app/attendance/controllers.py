@@ -36,6 +36,7 @@ class AttendanceManager(object):
             attendance["_id"] = str(attendance["_id"])
             sr_code = attendance.get('sr_code')
 
+            print(sr_code)
             student = StudentManager.get_student_by_code(sr_code)
             attendance["name"] = f'{student["first_name"]} {student["last_name"]}'
 

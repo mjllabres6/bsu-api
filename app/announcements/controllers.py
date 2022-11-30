@@ -32,13 +32,30 @@ class AnnouncementManager(object):
     def create_announcement(cls, body):
         from app import db
 
-        title = body.get("title")
-        description = body.get("description")
-        dept = body.get("department")
-        sr_code = body.get("sr_code")
+
+        """body = {
+            "title":"123",
+            "description":"12345",
+            "department":"CICS",
+            "sr_code":"CICSADMIN"
+        }"""
+
+        title = body.get("title") # 123
+        description = body.get("description") # 12345
+        dept = body.get("department") # CICS
+        sr_code = body.get("sr_code") # CICSADMIN
+
         if title and description:
             try:
-                db.announcements.insert_one({"title": title, "department": dept, "description": description, "created_at": datetime.now(tzlocal()).strftime("%B %d, %Y %H:%M"), "created_by": sr_code })
+                db.announcements.insert_one(
+                    {
+                        "title": title, 
+                        "department": dept, 
+                        "description": description, 
+                        "created_at": datetime.now(tzlocal()).strftime("%B %d, %Y %H:%M"), 
+                        "created_by": sr_code 
+                    }
+                )
                 return {"message": "Successfully created announcement"}
             except Exception as e:
                 print(e)

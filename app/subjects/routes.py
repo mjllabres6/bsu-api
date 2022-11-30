@@ -10,3 +10,9 @@ module = Blueprint("subjects", __name__)
 def get_subjects():
     res = SubjectManager.get_subjects()
     return make_response(res)
+
+@module.route("/subjects/<sr_code>", methods=["GET"])
+def get_student_subjects(sr_code):
+    res = SubjectManager.get_student_subjects(sr_code)
+    return make_response(res)
+
