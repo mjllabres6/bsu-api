@@ -97,7 +97,7 @@ class GradeManager(object):
 
         predicted_y = regsr.predict(to_predict_x)
 
-        res["expected_gwa"] = predicted_y[0][0]
+        res["expected_gwa"] = round(predicted_y[0][0], 2)
         # res["expected_gwa"] = round(sum / len(avrs), 2)
             
 
