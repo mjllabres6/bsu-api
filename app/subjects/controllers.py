@@ -33,7 +33,7 @@ class SubjectManager(object):
         return data
 
     @classmethod
-    def get_student_subjects(cls, sr_code):
+    def get_student_subjects(cls, sr_code, raw=False):
         student = StudentManager.get_student_by_code(sr_code)
         subjects = []
         for subject in student["subjects"]:
@@ -41,8 +41,12 @@ class SubjectManager(object):
             prof = ProfessorManager.get_professor_by_id(subject["prof_id"])
 
             subject.update({"professor": prof["name"]})
-            subject.pop("_id")
+            if not raw:
+                subject.pop("_id")
             subject.pop("prof_id")
             subjects.append(subject)
+        
+        if raw:
+            return subjects
 
         return jsonify({"subjects": subjects})

@@ -3,6 +3,7 @@ from flask import jsonify
 from bson.objectid import ObjectId
 from http import HTTPStatus
 from app.announcements.models import Announcements
+from app.students.controllers import StudentManager
 import pymongo
 import util
 from datetime import datetime
@@ -32,14 +33,6 @@ class AnnouncementManager(object):
     def create_announcement(cls, body):
         from app import db
 
-
-        """body = {
-            "title":"123",
-            "description":"12345",
-            "department":"CICS",
-            "sr_code":"CICSADMIN"
-        }"""
-
         title = body.get("title") # 123
         description = body.get("description") # 12345
         dept = body.get("department") # CICS
@@ -61,3 +54,35 @@ class AnnouncementManager(object):
                 print(e)
                 print(dir(e))
                 return {"message": "Error while trying to create this announcement"}
+    
+    @classmethod
+    def update_announcement(cls, body, announcement_id):
+        from app import db
+
+        admin = db.students.find_one({'sr_code': body.get('sr_code')})
+        if not admin or (admin and not admin["is_admin"]):
+            return {'message': 'You do not have permission to delete this'}
+
+        title = body.get("title")
+        description = body.get("description")
+        new = {}
+        if title:
+            new.update({"title": title})
+
+        if description:
+            new.update({"description": description})
+        
+        print({"$set": new})
+
+        db.announcements.update_one({'_id': ObjectId(announcement_id)}, {"$set": new})
+
+    
+    @classmethod
+    def delete_announcement(cls, sr_code, announcement_id):
+        from app import db
+
+        admin = db.students.find_one({'sr_code': sr_code})
+        if not admin or (admin and not admin["is_admin"]):
+            return {'message': 'You do not have permission to delete this'}
+        
+        db.announcements.delete_one({'_id': ObjectId(announcement_id)})

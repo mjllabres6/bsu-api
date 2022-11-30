@@ -104,3 +104,36 @@ class StudentManager(object):
 
         subjects = {"fourth": fourth}
         return jsonify({"data": subjects})
+    
+
+    @classmethod
+    def get_student_schedule(cls, sr_code):
+        from app import db
+        from app.subjects.controllers import SubjectManager
+
+        subjects = SubjectManager.get_student_subjects(sr_code, raw=True)
+        res = {
+            "monday": [],
+            "tuesday": [],
+            "wednesday": [],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": [],
+        }
+        for subject in subjects:
+            schedule = list(db.schedule.find({'subject': ObjectId(subject["_id"])}))
+            for sched in schedule:
+                sched.pop("_id")
+                sched["subject"] = subject["name"]
+                sched["prof"] = subject["professor"]
+                res[sched["day"]].append(sched)
+    
+        res = {k:v for k,v in res.items() if v}
+
+
+        for key in res:
+            res[key] = sorted(res[key], key=lambda d: d["time_start"].split(":")[0], reverse=True) 
+                
+        return {"schedule": res}
+
