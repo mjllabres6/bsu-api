@@ -12,7 +12,8 @@ from datetime import date, datetime, timedelta
 from app.subjects.controllers import SubjectManager
 from app.students.controllers import StudentManager
 import csv
-
+from datetime import datetime
+import pytz
 
 class ClassManager(object):
     @classmethod
@@ -20,7 +21,10 @@ class ClassManager(object):
         from app import db
 
         code = str(uuid.uuid4())
-        today = date.today()
+
+        tz = pytz.timezone("Singapore") 
+        today = datetime.now(tz)
+        # today = date.today()
 
         subject_id = body.get("subject_id")
 
