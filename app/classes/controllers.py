@@ -39,7 +39,7 @@ class ClassManager(object):
             "date": today.strftime("%B %d, %Y"),
         }
 
-        expiry = datetime.now() + timedelta(hours=int(subject_body.pop("duration")))
+        expiry = datetime.now() + timedelta(minutes=30)
 
         subject_body.update({"code": code, "expires_at": expiry})
 
