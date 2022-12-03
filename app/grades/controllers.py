@@ -89,13 +89,6 @@ class GradeManager(object):
 
             res["overall"] = round(grand_total / total_subjects, 2)
 
-            avrs = ["overall", "current_sem", "previous_sem"]
-            sum = 0
-            for key in avrs:
-                if key not in res:
-                    avrs.pop(key)
-                sum += res[key]
-
         y = np.array(gwas).reshape(-1,1)
         x = np.array([i for i in range(1, len(gwas) + 1)]).reshape(-1,1)
 
