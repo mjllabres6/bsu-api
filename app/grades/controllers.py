@@ -32,14 +32,21 @@ class GradeManager(object):
                     db.grades.find({"student_id": code, "sy": sy, "sem": sem})
                 )
                 if grades:
+                    total = 0
                     for grade in grades:
                         [grade.pop(key) for key in ["_id", "student_id", "sy", "sem"]]
                         grade["subject"] = SubjectManager.get_subject_by_id(
                             grade["subject"]
                         )["name"]
                         grade["grade"] = float(str(grade["grade"]))
+                        total += float(str(grade["grade"]))
 
-                    res.append({"sem": f"{sy} - {util.first_second(sem)}", "grades": grades})
+                    res.append(
+                        {
+                        "sem": f"{sy} - {util.first_second(sem)}",
+                        "grades": grades,
+                        "gwa": round(float(total / len(grades)), 2)
+                     })
 
         return jsonify(res)
 
