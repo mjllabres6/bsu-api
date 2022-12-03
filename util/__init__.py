@@ -20,3 +20,8 @@ def validate_data(body, model):
 def get_timestamp():
     tz = pytz.timezone("Singapore")
     return datetime.now(tz)
+
+def first_second(num):
+    if num == 1:
+        return "First Semester"
+    return "Second Semester"

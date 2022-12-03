@@ -39,7 +39,7 @@ class GradeManager(object):
                         )["name"]
                         grade["grade"] = float(str(grade["grade"]))
 
-                    res.append({"sem": f"{sy} - {sem}", "grades": grades})
+                    res.append({"sem": f"{sy} - {util.first_second(sem)}", "grades": grades})
 
         return jsonify(res)
 
