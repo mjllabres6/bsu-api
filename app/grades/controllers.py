@@ -44,6 +44,7 @@ class GradeManager(object):
                     res.append(
                         {
                         "sem": f"{sy} - {util.first_second(sem)}",
+                        "sem_chart": f"{sy} - {sem}",
                         "grades": grades,
                         "gwa": round(float(total / len(grades)), 2)
                      })
