@@ -65,6 +65,10 @@ class StudentManager(object):
         student = db.students.find_one(
             {"sr_code": user_body["sr_code"], "password": user_body["password"]}
         )
+
+        prof = db.professors.find_one(
+            {"email": user_body["sr_code"], "password": user_body["password"]}
+        )
         if student:
             if student["is_admin"]:
                 return {
@@ -74,6 +78,12 @@ class StudentManager(object):
             return {
                 "message": "Found a match on a student record.",
                 "name": f'{student["first_name"]} {student["last_name"]}',
+            }, 200
+
+        if prof:
+            return {
+                "message": "Found a match on a professor record.",
+                "name": prof["name"],
             }, 200
 
         return {"message": "Invalid login credentials."}, 200
