@@ -47,6 +47,8 @@ class AttendanceManager(object):
         from app import db
         import pytz
 
+        student = db.students.find({"sr_code": code})
+
         current_class = db.classes.find_one({"code": code})
         if current_class:
             if current_class["expires_at"] < datetime.now():
@@ -72,6 +74,7 @@ class AttendanceManager(object):
                     "subject": subject["name"],
                     "date": today.strftime("%B %d, %Y"),
                     "prof_name": prof["name"],
+                    "section": student["section"]
                 }
             )
             return {"message": "Class attendance has been registered"}

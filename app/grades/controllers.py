@@ -101,7 +101,6 @@ class GradeManager(object):
         res["expected_gwa"] = round(predicted_y[0][0], 2)
         # res["expected_gwa"] = round(sum / len(avrs), 2)
             
-
         return jsonify(res)
 
     @classmethod
