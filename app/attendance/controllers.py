@@ -47,7 +47,7 @@ class AttendanceManager(object):
         from app import db
         import pytz
 
-        student = db.students.find({"sr_code": code})
+        student = db.students.find_one({"sr_code": code})
 
         current_class = db.classes.find_one({"code": code})
         if current_class:
