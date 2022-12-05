@@ -46,7 +46,8 @@ class AttendanceManager(object):
     def register_attendance(cls, code, body):
         from app import db
         import pytz
-
+        print(code)
+        print({"sr_code": code})
         student = db.students.find_one({"sr_code": code})
 
         current_class = db.classes.find_one({"code": code})
