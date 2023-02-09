@@ -83,7 +83,7 @@ class StudentManager(object):
         if prof:
             return {
                 "message": "Found a match on a professor record.",
-                "name": prof["name"],
+                "prof_id": str(prof["_id"]),
             }, 200
 
         return {"message": "Invalid login credentials."}, 200

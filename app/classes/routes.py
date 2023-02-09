@@ -61,7 +61,7 @@ def get_prof_classes(profcode):
 
 @module.route("/classes/<code>/export", methods=["GET"])
 def export_as_excel(code):
-    res = ClassManager.export_as_excel(code)
+    res, filename = ClassManager.export_as_excel(code)
     return send_file(
-        res, as_attachment=True, download_name="class_summary.csv", mimetype="text/csv"
+        res, as_attachment=True, download_name=f"{filename}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )

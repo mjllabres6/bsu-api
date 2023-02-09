@@ -48,6 +48,8 @@ class AttendanceManager(object):
         import pytz
         student = db.students.find_one({"sr_code": body["sr_code"]})
 
+        print(student)
+
         current_class = db.classes.find_one({"code": code})
         if current_class:
             if current_class["expires_at"] < datetime.now():
@@ -72,6 +74,7 @@ class AttendanceManager(object):
                     "sr_code": body.get("sr_code"),
                     "subject": subject["name"],
                     "date": today.strftime("%B %d, %Y"),
+                    "raw_date": today,
                     "prof_name": prof["name"],
                     "section": student["section"]
                 }

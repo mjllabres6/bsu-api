@@ -31,6 +31,18 @@ class SubjectManager(object):
         data["_id"] = str(data["_id"])
         data["prof_id"] = str(data["prof_id"])
         return data
+    
+    @classmethod
+    def get_prof_subjects(cls, body):
+        from app import db
+
+        subjects = list(db.subjects.find({'prof_id': ObjectId(body.get("prof_id"))}))
+        for subject in subjects:
+            subject["_id"] = str(subject["_id"])
+            subject.pop("prof_id")
+        
+        return jsonify({"data": subjects})
+
 
     @classmethod
     def get_student_subjects(cls, sr_code, raw=False):

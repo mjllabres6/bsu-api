@@ -33,14 +33,19 @@ class ClassManager(object):
         ):
             return {"message": "Error finding a subject with this id."}
 
+
+
         subject_body = {
             "subject_id": subject_id,
             "duration": body.get("duration"),
             "date": today.strftime("%B %d, %Y"),
+            "section": body.get("section")
         }
 
-        expiry = datetime.now() + timedelta(minutes=30)
+        print(subject_body)
 
+        expiry = datetime.now() + timedelta(minutes=30)
+        print(expiry)
         subject_body.update({"code": code, "expires_at": expiry})
 
         try:
@@ -123,25 +128,45 @@ class ClassManager(object):
     @classmethod
     def export_as_excel(cls, code):
         from app import db
+        import xlsxwriter
 
-        import io
+        # import io
 
         data = list(db.attendance.find({"class_code": code}))
-        srcode = ""
         name = ""
 
-        proxy = io.StringIO()
+        chosen_class = db.classes.find_one({"code": code})
+        subject = db.subjects.find_one({"_id": ObjectId(chosen_class["subject_id"])})
+        prof = db.professors.find_one({"_id": ObjectId(subject["prof_id"])})
 
-        writer = csv.writer(proxy)
-        writer.writerow(["SR-CODE", "NAME"])
+
+        row = 0
+        col = 0
+
+        intro_lines = [prof["name"], subject["name"], chosen_class["section"], chosen_class["date"], " "]
+
+
+
+        buffer = BytesIO()
+        workbook = xlsxwriter.Workbook(buffer)
+        worksheet = workbook.add_worksheet()
+
+        bold = workbook.add_format({'bold':True})
+        for value in intro_lines:
+            worksheet.write(row, col, value, bold)
+            row+= 1
+
+        worksheet.write(row, col, "LRN", bold)
+        worksheet.write(row, col + 1, "NAME", bold)
+        row += 1
 
         for student in data:
             st = StudentManager.get_student_by_code(student["sr_code"])
             name = f"{st['first_name']} {st['last_name']}"
-            writer.writerow([student["sr_code"], name])
+            worksheet.write(row, col, student["sr_code"])
+            worksheet.write(row, col + 1, name)
+            row += 1
 
-        mem = io.BytesIO()
-        mem.write(proxy.getvalue().encode())
-        mem.seek(0)
-        proxy.close()
-        return mem
+        workbook.close()
+        buffer.seek(0)
+        return buffer, f"{chosen_class['date']} - {chosen_class['section']} - {subject['name']}"
