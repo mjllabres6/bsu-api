@@ -78,6 +78,7 @@ class StudentManager(object):
             return {
                 "message": "Found a match on a student record.",
                 "name": f'{student["first_name"]} {student["last_name"]}',
+                "id_url": student["id_url"]
             }, 200
 
         if prof:
