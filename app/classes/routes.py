@@ -65,3 +65,8 @@ def export_as_excel(code):
     return send_file(
         res, as_attachment=True, download_name=f"{filename}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
+@module.route("/classes/<code>/<api_key>", methods=["DELETE"])
+def delete_class(code, api_key):
+    res = ClassManager.delete_class(code, api_key)
+    return res

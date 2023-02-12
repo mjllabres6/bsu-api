@@ -124,6 +124,18 @@ class ClassManager(object):
         for classx in classes:
             classx["attendees"] = len(list(db.attendance.find({'class_code': classx['code']})))
         return {"classes": classes}
+    
+    @classmethod
+    def delete_class(cls, code, api_key = None):
+        from app import db
+        if not api_key or api_key != "K9QPL55Fv9ly":
+            return {"message": "unauthorized"}
+
+        clxss = db.classes.find_one({"code": code})
+        if clxss:
+            db.classes.delete_one({"code": code})
+            return {"message": "OK"}
+        return {"message": "class doesn't exist"}
 
     @classmethod
     def export_as_excel(cls, code):
